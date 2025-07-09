@@ -203,76 +203,77 @@
       okyanus: '#9c27b0'
     };
 
-   const locations = [
-  {
-    name: "İstanbul Boğazı",
-    coords: [41.0082, 28.9784],
-    ph: 7.2,
-    temp: 22,
-    durum: "yuzme",
-    detaylar: [
-      "Yüzmeye uygun",
-      "Arıtma sistemi aktif",
-      "Son analiz: 2 saat önce",
-      "Bakteri seviyesi: Düşük"
-    ]
-  },
-  {
-    name: "Manyas Gölü",
-    coords: [39.6886, 27.9792],
-    ph: 7.5,
-    temp: 21,
-    durum: "icme",
-    detaylar: [
-      "Balık üretimi açısından önemli",
-      "2021 yazında alg patlaması yaşandı",
-      "Bakteri oranı mevsime göre değişken"
-    ]
-  },
-  {
-    name: "Bafa Gölü",
-    coords: [37.4872, 27.4553],
-    ph: 7.1,
-    temp: 24,
-    durum: "yuzme",
-    detaylar: [
-      "2022 yılında oksijen seviyesinde düşüş",
-      "Su seviyesi tarım nedeniyle azaldı"
-    ]
-  },
-  {
-    name: "Seyfe Gölü",
-    coords: [39.2144, 33.5119],
-    ph: 6.8,
-    temp: 19,
-    durum: "icme",
-    detaylar: [
-      "Göçmen kuşlar için önemli alan",
-      "Kuruma riski geçmişte yaşandı"
-    ]
-  },
-  {
-    name: "Beyşehir Gölü",
-    coords: [37.6861, 31.5292],
-    ph: 7.4,
-    temp: 20,
-    durum: "yuzme",
-    detaylar: [
-      "2023'te su seviyesi kritik düzeye indi",
-      "Hafif kirlilik tespit edildi"
-    ]
-  },
-  {
-    name: "Eğirdir Gölü",
-    coords: [37.8619, 30.8497],
-    ph: 7.3,
-    temp: 22,
-    durum: "icme",
-    detaylar: [
-      "2008'de arsenik kirliliği tespit edilmişti",
-      "Güncel analizler temiz"
-    ]
-  }
+    const locations = [
+      {
+        name: "İstanbul Boğazı",
+        coords: [41.0082, 28.9784],
+        ph: 7.2,
+        temp: 22,
+        durum: "yuzme",
+        detaylar: [
+          "Yüzmeye uygun",
+          "Arıtma sistemi aktif",
+          "Son analiz: 2 saat önce",
+          "Bakteri seviyesi: Düşük"
+        ]
+      },
+      {
+        name: "Manyas Gölü",
+        coords: [39.6886, 27.9792],
+        ph: 7.5,
+        temp: 21,
+        durum: "icme",
+        detaylar: [
+          "Balık üretimi açısından önemli",
+          "2021 yazında alg patlaması yaşandı",
+          "Bakteri oranı mevsime göre değişken"
+        ]
+      },
+      {
+        name: "Bafa Gölü",
+        coords: [37.4872, 27.4553],
+        ph: 7.1,
+        temp: 24,
+        durum: "yuzme",
+        detaylar: [
+          "2022 yılında oksijen seviyesinde düşüş",
+          "Su seviyesi tarım nedeniyle azaldı"
+        ]
+      },
+      {
+        name: "Seyfe Gölü",
+        coords: [39.2144, 33.5119],
+        ph: 6.8,
+        temp: 19,
+        durum: "icme",
+        detaylar: [
+          "Göçmen kuşlar için önemli alan",
+          "Kuruma riski geçmişte yaşandı"
+        ]
+      },
+      {
+        name: "Beyşehir Gölü",
+        coords: [37.6861, 31.5292],
+        ph: 7.4,
+        temp: 20,
+        durum: "yuzme",
+        detaylar: [
+          "2023'te su seviyesi kritik düzeye indi",
+          "Hafif kirlilik tespit edildi"
+        ]
+      },
+      {
+        name: "Eğirdir Gölü",
+        coords: [37.8619, 30.8497],
+        ph: 7.3,
+        temp: 22,
+        durum: "icme",
+        detaylar: [
+          "2008'de arsenik kirliliği tespit edilmişti",
+          "Güncel analizler temiz"
+        ]
+      }
+    ]; // Buradaki kapanış köşeli parantez eksikti.
 
     function addToFavorites(name) {
       if (!favorites.includes(name)) {
@@ -320,6 +321,7 @@
       document.getElementById('stat-icme').textContent = locations.filter(l => l.durum === 'icme').length;
     }
 
+    // Harita üzerindeki noktaları ekle
     locations.forEach(addSensorMarker);
     updateStatistics();
 
