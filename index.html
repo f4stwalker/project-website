@@ -3,152 +3,294 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Su Kalitesi Takip Sistemi</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <title>Su Kalitesi Takip Uygulaması</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f0f9f9;
+      background-color: #f4f9f9;
       color: #333;
+      margin: 0;
+      padding: 0;
     }
-
     header {
       background-color: #0077b6;
       color: white;
       padding: 1rem;
       text-align: center;
     }
-
     main {
+      padding: 2rem;
       max-width: 1000px;
-      margin: 2rem auto;
-      padding: 1rem;
+      margin: auto;
     }
-
+    section {
+      margin-bottom: 2rem;
+    }
     h2 {
       color: #0077b6;
     }
-
-    #map {
-      height: 500px;
+    ul {
+      padding-left: 1.5rem;
+    }
+    .info-box {
+      background: #e0f7fa;
+      padding: 1rem;
+      border-left: 4px solid #0077b6;
       margin: 1rem 0;
     }
-
+    #map {
+      height: 500px;
+      width: 100%;
+      margin: 1rem 0;
+    }
+    .control-panel {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .control-panel select,
+    .control-panel button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    .popup-section {
+      margin-top: 1rem;
+    }
+    .favorite-button, .report-button {
+      margin-top: 0.5rem;
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+      margin-right: 0.5rem;
+    }
     .legend {
       background: white;
       padding: 1rem;
+      border: 1px solid #ccc;
       border-radius: 8px;
       box-shadow: 0 0 6px rgba(0,0,0,0.1);
-      margin: 2rem 0;
+      max-width: 250px;
+      margin: 2rem auto;
     }
-
+    .legend h3 {
+      margin-top: 0;
+      color: #0077b6;
+    }
+    .legend ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .legend li {
+      margin-bottom: 0.5rem;
+    }
     .legend span {
       display: inline-block;
       width: 16px;
       height: 16px;
       margin-right: 0.5rem;
-      border-radius: 50%;
+      vertical-align: middle;
     }
-
+    .legend .yuzme {
+      background: #4caf50;
+    }
+    .legend .icme {
+      background: #2196f3;
+    }
+    .legend .okyanus {
+      background: #9c27b0;
+    }
     .qr-section {
       text-align: center;
-      margin-top: 3rem;
+      margin-top: 2rem;
     }
-
-    #qr-code {
-      margin-top: 1rem;
-      display: inline-block;
-      padding: 10px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .qr-section img {
+      width: 150px;
+      height: 150px;
     }
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
   <header>
-    <h1>Gerçek Zamanlı Su Kalitesi Takip Sistemi</h1>
-    <p>Su sağlığını takip et, bilinçli kararlar ver.</p>
+    <h1>Gerçek Zamanlı Su Kalitesi Takip Uygulaması</h1>
+    <p>Sağlıklı suya anlık erişim ve bilinçli seçim için teknoloji seninle</p>
   </header>
-
   <main>
     <section>
-      <h2>Harita</h2>
+      <h2>Harita Üzerinde Su Kalitesi Noktaları</h2>
+      <div class="control-panel">
+        <select id="filter">
+          <option value="">Tüm Noktalar</option>
+          <option value="yuzme">Yüzmeye Uygun</option>
+          <option value="icme">İçilebilir</option>
+        </select>
+        <button onclick="addMarkerMode=true">Nokta Ekle (Kendi Gözlemin)</button>
+        <button onclick="locateUser()">Konumumu Bul</button>
+      </div>
       <div id="map"></div>
     </section>
 
     <section class="legend">
-      <h2>Renk Açıklamaları</h2>
-      <p><span style="background:#4caf50;"></span> Yüzmeye Uygun</p>
-      <p><span style="background:#2196f3;"></span> İçilebilir</p>
-      <p><span style="background:#9c27b0;"></span> Okyanus</p>
+      <h3>Harita Açıklamaları</h3>
+      <ul>
+        <li><span class="yuzme"></span>Yüzmeye Uygun</li>
+        <li><span class="icme"></span>İçilebilir</li>
+        <li><span class="okyanus"></span>Okyanus Bölgesi</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Favori Su Noktaların</h2>
+      <ul id="favorite-list"></ul>
     </section>
 
     <section class="qr-section">
-      <h2>Web Siteme Mobilden Ulaş</h2>
-      <p>Bu QR kodu telefonunuzla tarayarak direkt olarak web sitesine erişebilirsiniz:</p>
-      <div id="qr-code"></div>
+      <h2>Uygulama Web Sürümü</h2>
+      <p>Aşağıdaki QR kodu tarayarak uygulamanın sitesine gidebilirsiniz:</p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://f4stwalker.github.io/project-website/&amp;size=150x150" alt="QR Kod">
     </section>
   </main>
 
-  <!-- Harita ve QR Kod Scriptleri -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
-    // Harita Başlat
-    const map = L.map('map').setView([39.925533, 32.866287], 5);
+    const map = L.map('map').setView([39.925533, 32.866287], 3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap Katkıcıları'
+      attribution: '© OpenStreetMap katkıcıları'
     }).addTo(map);
 
-    // Örnek Su Kalitesi Noktaları
+    const markers = [];
+    const favorites = [];
+
+    const durumRenkleri = {
+      yuzme: '#4caf50',
+      icme: '#2196f3',
+      okyanus: '#9c27b0'
+    };
+
     const locations = [
       {
         name: "İstanbul Boğazı",
         coords: [41.0082, 28.9784],
-        type: "yuzme"
+        ph: 7.2,
+        temp: 22,
+        durum: "yuzme",
+        detaylar: [
+          "Yüzmeye uygun",
+          "Arıtma sistemi aktif",
+          "Son analiz: 2 saat önce",
+          "Bakteri seviyesi: Düşük"
+        ]
       },
       {
-        name: "Antalya Sahili",
-        coords: [36.8841, 30.7056],
-        type: "yuzme"
-      },
-      {
-        name: "Van Gölü",
-        coords: [38.5, 43.3],
-        type: "icme"
+        name: "Hint Okyanusu",
+        coords: [-20.0, 80.0],
+        ph: 8.2,
+        temp: 27,
+        durum: "okyanus",
+        detaylar: [
+          "Derin açık deniz bölgesi",
+          "Yüzmeye uygun değil",
+          "Su temizliği genel olarak iyi"
+        ]
       }
     ];
 
-    const renkler = {
-      yuzme: "#4caf50",
-      icme: "#2196f3",
-      okyanus: "#9c27b0"
-    };
+    function addToFavorites(name) {
+      if (!favorites.includes(name)) {
+        favorites.push(name);
+        updateFavoriteList();
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      }
+    }
 
-    // Markerları Ekle
-    locations.forEach(loc => {
-      const icon = L.divIcon({
-        html: `<div style="background:${renkler[loc.type]};width:16px;height:16px;border-radius:50%;"></div>`,
-        className: ''
+    function updateFavoriteList() {
+      const list = document.getElementById("favorite-list");
+      list.innerHTML = "";
+      favorites.forEach(fav => {
+        const li = document.createElement("li");
+        li.textContent = fav;
+        list.appendChild(li);
       });
-      L.marker(loc.coords, { icon }).addTo(map)
-        .bindPopup(`<strong>${loc.name}</strong><br>Tür: ${loc.type}`);
+    }
+
+    function reportIssue(locationName) {
+      const issue = prompt(`${locationName} için gözlemlediğiniz sorunu yazınız:`);
+      if (issue) {
+        alert(`Teşekkürler. "${locationName}" için bildiriminiz alındı: ${issue}`);
+      }
+    }
+
+    function addSensorMarker(loc) {
+      const icon = L.divIcon({
+        className: 'custom-icon',
+        html: `<div style="background:${durumRenkleri[loc.durum]};width:16px;height:16px;border-radius:50%;"></div>`
+      });
+
+      const marker = L.marker(loc.coords, { icon }).addTo(map);
+      const detayHtml = `<ul>${loc.detaylar.map(i => `<li>${i}</li>`).join("")}</ul>`;
+      const favBtn = `<button class='favorite-button' onclick='addToFavorites("${loc.name}")'>Favorilere Ekle</button>`;
+      const reportBtn = `<button class='report-button' onclick='reportIssue("${loc.name}")'>İhbar Yap</button>`;
+      marker.bindPopup(`<strong>${loc.name}</strong><br/>pH: ${loc.ph}<br/>Sıcaklık: ${loc.temp}°C<div class='popup-section'>${detayHtml}${favBtn}${reportBtn}</div>`);
+      marker.durum = loc.durum;
+      markers.push(marker);
+    }
+
+    locations.forEach(addSensorMarker);
+
+    document.getElementById("filter").addEventListener("change", function (e) {
+      const val = e.target.value;
+      markers.forEach(m => {
+        if (!val || m.durum === val) {
+          m.addTo(map);
+        } else {
+          map.removeLayer(m);
+        }
+      });
     });
 
-    // QR Kodu Oluştur
-    new QRCode(document.getElementById("qr-code"), {
-      text: "https://zeynepkosar.github.io/my-website/",
-      width: 200,
-      height: 200,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
+    let addMarkerMode = false;
+
+    map.on('click', function(e) {
+      if (!addMarkerMode) return;
+      const userMarker = L.marker(e.latlng).addTo(map);
+      userMarker.bindPopup(`<strong>Kullanıcı Gözlemi</strong><br/>Koku: Yok<br/>Renk: Normal<br/>Atık: Görülmedi`);
+      addMarkerMode = false;
+    });
+
+    function locateUser() {
+      if (!navigator.geolocation) {
+        alert("Konum hizmeti desteklenmiyor.");
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          map.setView([lat, lon], 12);
+          L.marker([lat, lon]).addTo(map).bindPopup("Şu anki konumunuz").openPopup();
+        },
+        () => {
+          alert("Konum alınamadı.");
+        }
+      );
+    }
+
+    window.addEventListener('load', () => {
+      const storedFavs = localStorage.getItem('favorites');
+      if (storedFavs) {
+        const parsedFavs = JSON.parse(storedFavs);
+        parsedFavs.forEach(fav => favorites.push(fav));
+        updateFavoriteList();
+      }
     });
   </script>
 </body>
 </html>
+
 
 
 
