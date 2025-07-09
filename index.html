@@ -203,146 +203,78 @@
       okyanus: '#9c27b0'
     };
 
-    const locations = [
-      {
-        name: "İstanbul Boğazı",
-        coords: [41.0082, 28.9784],
-        ph: 7.2,
-        temp: 22,
-        durum: "yuzme",
-        detaylar: [
-          "Yüzmeye uygun",
-          "Arıtma sistemi aktif",
-          "Son analiz: 2 saat önce",
-          "Bakteri seviyesi: Düşük"
-        ]
-      },
-        {
-  name: "Manyas Gölü",
-  coords: [39.6886, 27.9792],
-  ph: 7.5,
-  temp: 21,
-  durum: "icme",
-  detaylar: [
-    "Balık üretimi açısından önemli",
-    "2021 yazında alg patlaması yaşandı",
-    "Bakteri oranı mevsime göre değişken"
-  ]
-},
-{
-  name: "Bafa Gölü",
-  coords: [37.4872, 27.4553],
-  ph: 7.1,
-  temp: 24,
-  durum: "yuzme",
-  detaylar: [
-    "2022 yılında oksijen seviyesinde düşüş",
-    "Su seviyesi tarım nedeniyle azaldı"
-  ]
-},
-{
-  name: "Seyfe Gölü",
-  coords: [39.2144, 33.5119],
-  ph: 6.8,
-  temp: 19,
-  durum: "icme",
-  detaylar: [
-    "Göçmen kuşlar için önemli alan",
-    "Kuruma riski geçmişte yaşandı"
-  ]
-},
-{
-  name: "Beyşehir Gölü",
-  coords: [37.6861, 31.5292],
-  ph: 7.4,
-  temp: 20,
-  durum: "yuzme",
-  detaylar: [
-    "2023'te su seviyesi kritik düzeye indi",
-    "Hafif kirlilik tespit edildi"
-  ]
-},
-{
-  name: "Eğirdir Gölü",
-  coords: [37.8619, 30.8497],
-  ph: 7.3,
-  temp: 22,
-  durum: "icme",
-  detaylar: [
-    "2008'de arsenik kirliliği tespit edilmişti",
-    "Güncel analizler temiz"
-  ]
-},
-{
-  name: "Kuş Gölü",
-  coords: [40.1806, 26.3472],
-  ph: 7.7,
-  temp: 20,
-  durum: "yuzme",
-  detaylar: [
-    "Sulak alan statüsünde",
-    "Tuz seviyesi dönemsel olarak artmakta"
-  ]
-},
-{
-  name: "Tuz Gölü",
-  coords: [38.7500, 33.3333],
-  ph: 9.0,
-  temp: 30,
-  durum: "okyanus",
-  detaylar: [
-    "Yüzmeye uygun değil",
-    "2021’de ciddi kuruma yaşandı"
-  ]
-},
-{
-  name: "Uzungöl",
-  coords: [40.6175, 40.3114],
-  ph: 6.9,
-  temp: 17,
-  durum: "yuzme",
-  detaylar: [
-    "Turistik ilgi yoğun",
-    "Altyapı yetersizliği nedeniyle dönemsel bulanıklık"
-  ]
-},
-{
-  name: "Çıldır Gölü",
-  coords: [41.1578, 43.2669],
-  ph: 7.2,
-  temp: 10,
-  durum: "icme",
-  detaylar: [
-    "Kışın donan tek göllerden",
-    "Su kalitesi iyi durumda"
-  ]
-},
-{
-  name: "Sapanca Gölü",
-  coords: [40.6915, 30.2673],
-  ph: 7.6,
-  temp: 23,
-  durum: "yuzme",
-  detaylar: [
-    "2020’de kaçak deşarj tespit edildi",
-    "Son testlerde temiz"
-  ]
-}
-
-      },
-      {
-        name: "Hint Okyanusu",
-        coords: [-20.0, 80.0],
-        ph: 8.2,
-        temp: 27,
-        durum: "okyanus",
-        detaylar: [
-          "Derin açık deniz bölgesi",
-          "Yüzmeye uygun değil",
-          "Su temizliği genel olarak iyi"
-        ]
-      }
-    ];
+   const locations = [
+  {
+    name: "İstanbul Boğazı",
+    coords: [41.0082, 28.9784],
+    ph: 7.2,
+    temp: 22,
+    durum: "yuzme",
+    detaylar: [
+      "Yüzmeye uygun",
+      "Arıtma sistemi aktif",
+      "Son analiz: 2 saat önce",
+      "Bakteri seviyesi: Düşük"
+    ]
+  },
+  {
+    name: "Manyas Gölü",
+    coords: [39.6886, 27.9792],
+    ph: 7.5,
+    temp: 21,
+    durum: "icme",
+    detaylar: [
+      "Balık üretimi açısından önemli",
+      "2021 yazında alg patlaması yaşandı",
+      "Bakteri oranı mevsime göre değişken"
+    ]
+  },
+  {
+    name: "Bafa Gölü",
+    coords: [37.4872, 27.4553],
+    ph: 7.1,
+    temp: 24,
+    durum: "yuzme",
+    detaylar: [
+      "2022 yılında oksijen seviyesinde düşüş",
+      "Su seviyesi tarım nedeniyle azaldı"
+    ]
+  },
+  {
+    name: "Seyfe Gölü",
+    coords: [39.2144, 33.5119],
+    ph: 6.8,
+    temp: 19,
+    durum: "icme",
+    detaylar: [
+      "Göçmen kuşlar için önemli alan",
+      "Kuruma riski geçmişte yaşandı"
+    ]
+  },
+  {
+    name: "Beyşehir Gölü",
+    coords: [37.6861, 31.5292],
+    ph: 7.4,
+    temp: 20,
+    durum: "yuzme",
+    detaylar: [
+      "2023'te su seviyesi kritik düzeye indi",
+      "Hafif kirlilik tespit edildi"
+    ]
+  },
+  {
+    name: "Eğirdir Gölü",
+    coords: [37.8619, 30.8497],
+    ph: 7.3,
+    temp: 22,
+    durum: "icme",
+    detaylar: [
+      "2008'de arsenik kirliliği tespit edilmişti",
+      "Güncel analizler temiz"
+    ]
+  },
+  {
+    name: "Kuş
 
     function addToFavorites(name) {
       if (!favorites.includes(name)) {
