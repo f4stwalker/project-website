@@ -198,6 +198,88 @@
         ]
       }
     ];
+const locations = [
+  {
+    name: "İstanbul Boğazı",
+    coords: [41.045, 29.033],
+    durum: "yuzme",
+    ph: 7.4,
+    temp: 21,
+    detaylar: ["Bakteri Oranı: Düşük", "İçilebilir: Hayır", "Son analiz: 2 gün önce"]
+  },
+  {
+    name: "Sapanca Gölü",
+    coords: [40.691, 30.267],
+    durum: "icme",
+    ph: 7.1,
+    temp: 19,
+    detaylar: ["Bakteri Oranı: Çok Düşük", "İçilebilir: Evet", "Arıtma: Aktif"]
+  },
+  {
+    name: "Fener Plajı (İzmir)",
+    coords: [38.304, 26.307],
+    durum: "yuzme",
+    ph: 8.0,
+    temp: 24,
+    detaylar: ["Yüzmeye Uygun", "Son analiz: Bugün"]
+  },
+  {
+    name: "Van Gölü",
+    coords: [38.489, 43.374],
+    durum: "yuzme",
+    ph: 9.7,
+    temp: 22,
+    detaylar: ["Yüksek alkalin", "İçilebilir: Hayır", "Yüzmeye Uygunluk: Sınırlı"]
+  },
+  {
+    name: "Salda Gölü",
+    coords: [37.558, 29.685],
+    durum: "icme",
+    ph: 7.8,
+    temp: 20,
+    detaylar: ["Beyaz kumlu mineral yoğunluğu", "İçilebilir: Şartlı", "Yüzme: Güvenli"]
+  },
+  {
+    name: "Amasra Sahili",
+    coords: [41.749, 32.386],
+    durum: "yuzme",
+    ph: 7.5,
+    temp: 23,
+    detaylar: ["Karadeniz'e kıyı", "Yüzme: Güvenli", "Son analiz: 3 gün önce"]
+  },
+  {
+    name: "Tuz Gölü",
+    coords: [38.740, 33.290],
+    durum: "okyanus",
+    ph: 9.2,
+    temp: 26,
+    detaylar: ["Tuz oranı çok yüksek", "İçme: Uygun değil"]
+  },
+  {
+    name: "Karadeniz Açıkları",
+    coords: [42.0, 35.0],
+    durum: "okyanus",
+    ph: 8.1,
+    temp: 17,
+    detaylar: ["Derinlik: 3000m+", "Yüzme: Uygun değil"]
+  },
+  {
+    name: "Akdeniz Kıyısı (Antalya)",
+    coords: [36.887, 30.707],
+    durum: "yuzme",
+    ph: 7.9,
+    temp: 25,
+    detaylar: ["Yüzme: Mükemmel", "İçme: Uygun değil"]
+  },
+  {
+    name: "Bafa Gölü",
+    coords: [37.472, 27.487],
+    durum: "icme",
+    ph: 7.3,
+    temp: 20,
+    detaylar: ["İçme suyu rezervi", "Arıtma: Mevcut"]
+  }
+];
 
     function addToFavorites(name) {
       if (!favorites.includes(name)) {
