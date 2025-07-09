@@ -111,6 +111,29 @@
       width: 150px;
       height: 150px;
     }
+    .statistics-section {
+      background: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    }
+    .statistics-section h2 {
+      margin-top: 0;
+    }
+    .statistics-box {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .statistics-box div {
+      background: #e0f7fa;
+      border-left: 4px solid #0077b6;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      flex: 1 1 30%;
+      margin-right: 1rem;
+    }
   </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
@@ -143,6 +166,15 @@
       </ul>
     </section>
 
+    <section class="statistics-section">
+      <h2>Genel İstatistikler</h2>
+      <div class="statistics-box">
+        <div><strong id="stat-total"></strong><br/>Toplam Nokta</div>
+        <div><strong id="stat-yuzme"></strong><br/>Yüzmeye Uygun</div>
+        <div><strong id="stat-icme"></strong><br/>İçilebilir Su</div>
+      </div>
+    </section>
+
     <section>
       <h2>Favori Su Noktaların</h2>
       <ul id="favorite-list"></ul>
@@ -171,16 +203,134 @@
       okyanus: '#9c27b0'
     };
 
-const locations = [
-  {
-    name: "İstanbul Boğazı",
-    coords: [41.045, 29.033],
-    durum: "yuzme",
-    ph: 7.4,
-    temp: 21,
-    detaylar: ["Bakteri Oranı: Düşük", "İçilebilir: Hayır", "Son analiz: 2 gün önce"]
-  },
-   {
+    const locations = [
+      {
+        name: "İstanbul Boğazı",
+        coords: [41.0082, 28.9784],
+        ph: 7.2,
+        temp: 22,
+        durum: "yuzme",
+        detaylar: [
+          "Yüzmeye uygun",
+          "Arıtma sistemi aktif",
+          "Son analiz: 2 saat önce",
+          "Bakteri seviyesi: Düşük"
+        ]
+      },
+        {
+  name: "Manyas Gölü",
+  coords: [39.6886, 27.9792],
+  ph: 7.5,
+  temp: 21,
+  durum: "icme",
+  detaylar: [
+    "Balık üretimi açısından önemli",
+    "2021 yazında alg patlaması yaşandı",
+    "Bakteri oranı mevsime göre değişken"
+  ]
+},
+{
+  name: "Bafa Gölü",
+  coords: [37.4872, 27.4553],
+  ph: 7.1,
+  temp: 24,
+  durum: "yuzme",
+  detaylar: [
+    "2022 yılında oksijen seviyesinde düşüş",
+    "Su seviyesi tarım nedeniyle azaldı"
+  ]
+},
+{
+  name: "Seyfe Gölü",
+  coords: [39.2144, 33.5119],
+  ph: 6.8,
+  temp: 19,
+  durum: "icme",
+  detaylar: [
+    "Göçmen kuşlar için önemli alan",
+    "Kuruma riski geçmişte yaşandı"
+  ]
+},
+{
+  name: "Beyşehir Gölü",
+  coords: [37.6861, 31.5292],
+  ph: 7.4,
+  temp: 20,
+  durum: "yuzme",
+  detaylar: [
+    "2023'te su seviyesi kritik düzeye indi",
+    "Hafif kirlilik tespit edildi"
+  ]
+},
+{
+  name: "Eğirdir Gölü",
+  coords: [37.8619, 30.8497],
+  ph: 7.3,
+  temp: 22,
+  durum: "icme",
+  detaylar: [
+    "2008'de arsenik kirliliği tespit edilmişti",
+    "Güncel analizler temiz"
+  ]
+},
+{
+  name: "Kuş Gölü",
+  coords: [40.1806, 26.3472],
+  ph: 7.7,
+  temp: 20,
+  durum: "yuzme",
+  detaylar: [
+    "Sulak alan statüsünde",
+    "Tuz seviyesi dönemsel olarak artmakta"
+  ]
+},
+{
+  name: "Tuz Gölü",
+  coords: [38.7500, 33.3333],
+  ph: 9.0,
+  temp: 30,
+  durum: "okyanus",
+  detaylar: [
+    "Yüzmeye uygun değil",
+    "2021’de ciddi kuruma yaşandı"
+  ]
+},
+{
+  name: "Uzungöl",
+  coords: [40.6175, 40.3114],
+  ph: 6.9,
+  temp: 17,
+  durum: "yuzme",
+  detaylar: [
+    "Turistik ilgi yoğun",
+    "Altyapı yetersizliği nedeniyle dönemsel bulanıklık"
+  ]
+},
+{
+  name: "Çıldır Gölü",
+  coords: [41.1578, 43.2669],
+  ph: 7.2,
+  temp: 10,
+  durum: "icme",
+  detaylar: [
+    "Kışın donan tek göllerden",
+    "Su kalitesi iyi durumda"
+  ]
+},
+{
+  name: "Sapanca Gölü",
+  coords: [40.6915, 30.2673],
+  ph: 7.6,
+  temp: 23,
+  durum: "yuzme",
+  detaylar: [
+    "2020’de kaçak deşarj tespit edildi",
+    "Son testlerde temiz"
+  ]
+}
+
+      },
+      {
         name: "Hint Okyanusu",
         coords: [-20.0, 80.0],
         ph: 8.2,
@@ -190,80 +340,9 @@ const locations = [
           "Derin açık deniz bölgesi",
           "Yüzmeye uygun değil",
           "Su temizliği genel olarak iyi"
-          },
-  {
-    name: "Sapanca Gölü",
-    coords: [40.691, 30.267],
-    durum: "icme",
-    ph: 7.1,
-    temp: 19,
-    detaylar: ["Bakteri Oranı: Çok Düşük", "İçilebilir: Evet", "Arıtma: Aktif"]
-  },
-  {
-    name: "Fener Plajı (İzmir)",
-    coords: [38.304, 26.307],
-    durum: "yuzme",
-    ph: 8.0,
-    temp: 24,
-    detaylar: ["Yüzmeye Uygun", "Son analiz: Bugün"]
-  },
-  {
-    name: "Van Gölü",
-    coords: [38.489, 43.374],
-    durum: "yuzme",
-    ph: 9.7,
-    temp: 22,
-    detaylar: ["Yüksek alkalin", "İçilebilir: Hayır", "Yüzmeye Uygunluk: Sınırlı"]
-  },
-  {
-    name: "Salda Gölü",
-    coords: [37.558, 29.685],
-    durum: "icme",
-    ph: 7.8,
-    temp: 20,
-    detaylar: ["Beyaz kumlu mineral yoğunluğu", "İçilebilir: Şartlı", "Yüzme: Güvenli"]
-  },
-  {
-    name: "Amasra Sahili",
-    coords: [41.749, 32.386],
-    durum: "yuzme",
-    ph: 7.5,
-    temp: 23,
-    detaylar: ["Karadeniz'e kıyı", "Yüzme: Güvenli", "Son analiz: 3 gün önce"]
-  },
-  {
-    name: "Tuz Gölü",
-    coords: [38.740, 33.290],
-    durum: "okyanus",
-    ph: 9.2,
-    temp: 26,
-    detaylar: ["Tuz oranı çok yüksek", "İçme: Uygun değil"]
-  },
-  {
-    name: "Karadeniz Açıkları",
-    coords: [42.0, 35.0],
-    durum: "okyanus",
-    ph: 8.1,
-    temp: 17,
-    detaylar: ["Derinlik: 3000m+", "Yüzme: Uygun değil"]
-  },
-  {
-    name: "Akdeniz Kıyısı (Antalya)",
-    coords: [36.887, 30.707],
-    durum: "yuzme",
-    ph: 7.9,
-    temp: 25,
-    detaylar: ["Yüzme: Mükemmel", "İçme: Uygun değil"]
-  },
-  {
-    name: "Bafa Gölü",
-    coords: [37.472, 27.487],
-    durum: "icme",
-    ph: 7.3,
-    temp: 20,
-    detaylar: ["İçme suyu rezervi", "Arıtma: Mevcut"]
-  }
-];
+        ]
+      }
+    ];
 
     function addToFavorites(name) {
       if (!favorites.includes(name)) {
@@ -305,7 +384,14 @@ const locations = [
       markers.push(marker);
     }
 
+    function updateStatistics() {
+      document.getElementById('stat-total').textContent = locations.length;
+      document.getElementById('stat-yuzme').textContent = locations.filter(l => l.durum === 'yuzme').length;
+      document.getElementById('stat-icme').textContent = locations.filter(l => l.durum === 'icme').length;
+    }
+
     locations.forEach(addSensorMarker);
+    updateStatistics();
 
     document.getElementById("filter").addEventListener("change", function (e) {
       const val = e.target.value;
@@ -356,6 +442,7 @@ const locations = [
   </script>
 </body>
 </html>
+
 
 
 
